@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: white;
+            color: black;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+            color: black; /* Ensure container text is always black */
+        }
+        .setting {
+            margin-bottom: 20px;
+        }
+        .setting label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        .setting input[type="text"], .setting input[type="password"], .setting select {
+            width: 100%;
+            padding: 8px;
+            box-sizing: border-box;
+        }
+        .toggle {
+            display: flex;
+            align-items: center;
+        }
+        .toggle input {
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Settings</h1>
+        
+        <!-- Dark Mode Setting -->
+        <div class="setting">
+            <label class="toggle">
+                <input type="checkbox" id="darkMode" onclick="toggleDarkMode()">
+                Enable Dark Mode
+            </label>
+        </div>
+        
+        <!-- Notifications Setting -->
+        <div class="setting">
+            <label class="toggle">
+                <input type="checkbox" id="notifications">
+                Enable Notifications
+            </label>
+        </div>
+        
+        <!-- Username Setting -->
+        <div class="setting">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username">
+        </div>
+        
+        <!-- Password Setting -->
+        <div class="setting">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password">
+        </div>
+
+        <!-- Save Button -->
+        <div class="setting">
+            <button onclick="saveSettings()">Save Settings</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleDarkMode() {
+            const body = document.body;
+            body.style.backgroundColor = body.style.backgroundColor === 'rgb(40, 40, 40)' ? 'white' : 'rgb(40, 40, 40)';
+            body.style.color = body.style.color === 'white' ? 'black' : 'white';
+        }
+
+        function saveSettings() {
+            const darkMode = document.getElementById('darkMode').checked;
+            const notifications = document.getElementById('notifications').checked;
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+
+            // Save settings to localStorage or send them to the server
+            console.log('Settings saved:', { darkMode, notifications, username, password });
+
+            // Example: saving to localStorage
+            localStorage.setItem('settings', JSON.stringify({ darkMode, notifications, username, password }));
+
+            alert('Settings saved successfully!');
+        }
+
+        // Load saved settings on page load
+        window.onload = function() {
+            const savedSettings = JSON.parse(localStorage.getItem('settings'));
+            if (savedSettings) {
+                document.getElementById('darkMode').checked = savedSettings.darkMode;
+                document.getElementById('notifications').checked = savedSettings.notifications;
+                document.getElementById('username').value = savedSettings.username;
+                document.getElementById('password').value = savedSettings.password;
+                if (savedSettings.darkMode) {
+                    document.body.style.backgroundColor = 'rgb(40, 40, 40)';
+                    document.body.style.color = 'white';
+                }
+            }
+        };
+    </script>
+</body>
+</html>

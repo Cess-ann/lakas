@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Slider with CRUD Buttons</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+        }
+
+        .sidebar {
+            background-color: #fff;
+            color: #000;
+            width: 250px;
+            height: 100%;
+            padding-top: 20px;
+            position: fixed;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .sidebar a {
+            display: block;
+            color: #000;
+            padding: 15px 20px;
+            text-decoration: none;
+            font-size: 18px;
+            transition: background-color 0.3s, transform 0.3s;
+        }
+
+        .sidebar a:hover {
+            background-color: #e0e0e0;
+            transform: scale(1.1);
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .slider-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 60px);
+            margin: auto;
+            overflow: hidden;
+        }
+
+        .slides {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+            height: 100%;
+        }
+
+        .slide {
+            min-width: 100%;
+            box-sizing: border-box;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100%;
+            text-align: center;
+            position: relative;
+        }
+
+        button {
+            position: absolute;
+            top: 50%;
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 15px;
+            z-index: 100;
+            font-size: 18px;
+            transform: translateY(-50%);
+            border-radius: 5px;
+        }
+
+        .prev {
+            left: 10px;
+        }
+
+        .next {
+            right: 10px;
+        }
+
+        .crud-button {
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+            margin: 5px;
+        }
+
+        .crud-container {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .crud-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .dots {
+            text-align: center;
+            padding: 10px 0;
+        }
+
+        .dot {
+            height: 15px;
+            width: 15px;
+            margin: 0 5px;
+            background-color: #bbb;
+            border-radius: 50%;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .dot.active {
+            background-color: #717171;
+        }
+
+        h2 {
+            margin: 0;
+        }
+
+        p {
+            margin: 10px 0 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="one.html">Home</a>
+        <a href="two.html">Products</a>
+        <a href="three.html">Settings</a>
+        <a href="index.html">Logout</a>
+    </div>
+    <div class="content">
+        <h1>Welcome to the Dashboard</h1>
+        <p>Select an option from the navigation bar to get started.</p>
+        <div class="slider-container">
+            <div class="slides">
+                <div class="slide">
+                    <h2>Product 1</h2>
+                    <p>This is a description for Product 1. It includes key features and benefits that make this product stand out.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 2</h2>
+                    <p>This is a description for Product 2. It offers unique attributes and advantages for the user.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 3</h2>
+                    <p>Product 3 has exceptional qualities and is designed to meet your needs efficiently.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 4</h2>
+                    <p>Discover the features of Product 4 and how it provides value to its users.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 5</h2>
+                    <p>Product 5 delivers high performance and reliability, making it a top choice for many.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 6</h2>
+                    <p>Learn about Product 6 and its unique selling points that cater to specific needs.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 7</h2>
+                    <p>Product 7 is engineered to offer superior functionality and efficiency.</p>
+                </div>
+                <div class="slide">
+                    <h2>Product 8</h2>
+                    <p>This is the final product, Product 8, which provides a comprehensive solution for users.</p>
+                </div>
+            </div>
+            <button class="prev">❮</button>
+            <button class="next">❯</button>
+        </div>
+        <div class="crud-container">
+            <div class="crud-section">
+                <button class="crud-button" onclick="createProduct()">Create Product</button>
+            </div>
+            <div class="crud-section">
+                <button class="crud-button" onclick="updateProduct()">Update Product</button>
+            </div>
+            <div class="crud-section">
+                <button class="crud-button" onclick="deleteProduct()">Delete Product</button>
+            </div>
+        </div>
+        <div class="dots">
+            <span class="dot" onclick="currentSlide(0)"></span>
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+            <span class="dot" onclick="currentSlide(4)"></span>
+            <span class="dot" onclick="currentSlide(5)"></span>
+            <span class="dot" onclick="currentSlide(6)"></span>
+            <span class="dot" onclick="currentSlide(7)"></span>
+        </div>
+    </div>
+    <script>
+        const slides = document.querySelector('.slides');
+        const dots = document.querySelectorAll('.dot');
+        const slideCount = document.querySelectorAll('.slide').length;
+        let index = 0;
+        let isTransitioning = false;
+
+        function showSlide(n) {
+            if (n >= slideCount) index = 0;
+            if (n < 0) index = slideCount - 1;
+            slides.style.transition = 'transform 0.5s ease-in-out';
+            slides.style.transform = `translateX(${-index * 100}%)`;
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === index);
+            });
+            isTransitioning = true;
+            setTimeout(() => {
+                isTransitioning = false;
+            }, 500);
+        }
+
+        document.querySelector('.next').addEventListener('click', () => {
+            if (!isTransitioning) {
+                index++;
+                showSlide(index);
+            }
+        });
+
+        document.querySelector('.prev').addEventListener('click', () => {
+            if (!isTransitioning) {
+                index--;
+                showSlide(index);
+            }
+        });
+
+        function currentSlide(n) {
+            if (!isTransitioning) {
+                index = n;
+                showSlide(index);
+            }
+        }
+
+        function createProduct() {
+            alert('Create Product functionality to be implemented.');
+        }
+
+        function updateProduct() {
+            alert('Update Product functionality to be implemented.');
+        }
+
+        function deleteProduct() {
+            alert('Delete Product functionality to be implemented.');
+        }
+
+        // Initialize the first slide and dot as active
+        showSlide(index);
+    </script>
+</body>
+</html>
